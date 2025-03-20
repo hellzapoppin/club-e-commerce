@@ -6,6 +6,7 @@
 }
 
 .categories-content {
+  display: grid;
   height: 100%;
   width: 1920px;
   grid-template-areas: 'a b' 'c c' 'd e';
