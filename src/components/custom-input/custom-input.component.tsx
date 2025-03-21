@@ -3,17 +3,10 @@ import { CustomInputContainer } from './custom-input.styles'
 
 interface CustomInputProps extends InputHTMLAttributes<HTMLInputElement> {
   hasError?: boolean
-  label?: string
-  ref: any
 }
 
-const CustomInput = ({ hasError, ref, label, ...rest }: CustomInputProps) => {
-  return (
-    <>
-      <p>{label}</p>
-      <CustomInputContainer ref={ref} hasError={hasError} {...rest} />
-    </>
-  )
+const CustomInput = ({ hasError, ...rest }: CustomInputProps) => {
+  return <CustomInputContainer hasError={hasError} {...rest} />
 }
 
 export default CustomInput
