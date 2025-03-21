@@ -23,10 +23,10 @@ const LoginPage = () => {
           </CustomButton>
           <LoginSubtitle>ou entre com seu e-mail</LoginSubtitle>
           <LoginInputContainer>
-            <CustomInput placeholder='Digite seu e-mail' />
+            <CustomInput label='E-mail' placeholder='Digite seu e-mail' />
           </LoginInputContainer>
           <LoginInputContainer>
-            <CustomInput placeholder='Digite sua senha' />
+            <CustomInput label='Senha' placeholder='Digite sua senha' />
           </LoginInputContainer>
           <CustomButton startIcon={<FiLogIn size={18} />}>Entrar</CustomButton>
         </LoginContent>

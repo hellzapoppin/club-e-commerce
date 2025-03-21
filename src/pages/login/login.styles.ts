@@ -34,10 +34,10 @@ export const LoginSubtitle = styled.p`
 `
 
 export const LoginInputContainer = styled.div`
-    width: 100%;
-    margin-bottom: 20px;
-    p:nth-child(1) {
-        font-weight:600
-        margin-bottom: 5px
-    }
+  width: 100%;
+  margin-bottom: 20px;
+  p:nth-child(1) {
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
 `
