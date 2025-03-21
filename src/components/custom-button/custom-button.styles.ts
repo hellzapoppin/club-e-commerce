@@ -20,7 +20,7 @@ export const CustomButtonContainer = styled.button`
 
   &:hover {
     cursor: pointer;
-    background-color: #000;
+    background-color: rgba(0, 0, 0, 0.8);
   }
 `
 export const IconContainer = styled.div`
