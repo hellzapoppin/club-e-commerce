@@ -56,6 +56,7 @@ const LoginPage = () => {
           <LoginInputContainer>
             <p>Senha</p>
             <CustomInput
+              type='password'
               placeholder='Digite sua senha'
               {...register('password', {
                 required: 'A senha é obrigatória',
