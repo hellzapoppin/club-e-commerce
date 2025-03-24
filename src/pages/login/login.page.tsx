@@ -12,6 +12,12 @@ import {
 import CustomInput from '../../components/custom-input/custom-input.component'
 import { useForm } from 'react-hook-form'
 import InputErrorMessage from '../../components/input-error-message/input-error-message.component'
+import {
+  AuthError,
+  AuthErrorCodes,
+  signInWithEmailAndPassword
+} from 'firebase/auth'
+import { auth } from '../../config/firebase.config'
 
 interface LoginForm {
   email: string
@@ -22,14 +28,27 @@ const LoginPage = () => {
   const {
     register,
     formState: { errors },
-    handleSubmit
+    handleSubmit,
+    setError
   } = useForm<LoginForm>()
 
-  const handleSubmitPress = (data: LoginForm) => {
-    console.log(data)
+  const handleSubmitPress = async (data: LoginForm) => {
+    try {
+      const userCredentials = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      )
+      console.log(userCredentials)
+    } catch (error) {
+      console.log(error)
+      const _error = error as AuthError
+      if (_error.code === AuthErrorCodes.INVALID_IDP_RESPONSE) {
+        return setError('password', { message: 'E-mail e/ou senha inválidos' })
+      }
+    }
   }
 
-  console.log({ errors })
   return (
     <>
       <Header />
@@ -42,7 +61,7 @@ const LoginPage = () => {
           </CustomButton>
           <LoginSubtitle>ou entre com seu e-mail</LoginSubtitle>
           <LoginInputContainer>
-            <p>E-email</p>
+            <p>E-mail</p>
             <CustomInput
               placeholder='Digite seu e-mail'
               {...register('email', {
