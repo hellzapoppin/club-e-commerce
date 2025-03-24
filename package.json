@@ -2,6 +2,7 @@
   "name": "e-commerce-frontend",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "-": "^0.0.1",
     "@testing-library/dom": "^10.4.0",
@@ -34,10 +35,7 @@
     "husky:prepare": "husky install"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "extends": []
   },
   "browserslist": {
     "production": [
