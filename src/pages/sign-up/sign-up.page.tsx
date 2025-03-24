@@ -11,7 +11,11 @@ import { FiLogIn } from 'react-icons/fi'
 
 import { useForm } from 'react-hook-form'
 import InputErrorMessage from '../../components/input-error-message/input-error-message.component'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import {
+  AuthError,
+  AuthErrorCodes,
+  createUserWithEmailAndPassword
+} from 'firebase/auth'
 import { auth, db } from '../../config/firebase.config'
 import { addDoc, collection } from 'firebase/firestore'
 
@@ -28,10 +32,10 @@ const SignUpPage = () => {
     register,
     formState: { errors },
     handleSubmit,
-    getValues
+    getValues,
+    setError
   } = useForm<SignUpForm>()
   const handleSignUpClick = async (data: SignUpForm) => {
-    console.log(data)
     try {
       const userCredentials = await createUserWithEmailAndPassword(
         auth,
@@ -46,8 +50,15 @@ const SignUpPage = () => {
       })
     } catch (error) {
       console.log(error)
+      const _error = error as AuthError
+      if (_error.code === AuthErrorCodes.EMAIL_EXISTS) {
+        return setError('email', {
+          message: 'E-mail já cadastrado'
+        })
+      }
     }
   }
+
   return (
     <>
       <Header />
@@ -98,7 +109,13 @@ const SignUpPage = () => {
             <CustomInput
               type='password'
               placeholder='Digite seu senha'
-              {...register('password', { required: 'Senha obrigatório' })}
+              {...register('password', {
+                required: 'Senha obrigatório',
+                minLength: {
+                  value: 6,
+                  message: 'A senha deve conter, no mínimo, 6 caracteres'
+                }
+              })}
               hasError={!!errors?.password}
             ></CustomInput>
             {errors?.password && (
@@ -112,6 +129,11 @@ const SignUpPage = () => {
               placeholder='Digite novamente sua senha'
               {...register('passwordConfirmation', {
                 required: 'Confirmação de senha obrigatório',
+                minLength: {
+                  value: 6,
+                  message:
+                    'A confirmação de senha deve conter, no mínimo, 6 caracteres'
+                },
                 validate: (value) => {
                   return value === getValues('password')
                     ? true
