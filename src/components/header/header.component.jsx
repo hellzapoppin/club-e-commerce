@@ -7,6 +7,8 @@ import {
   HeaderTitle
 } from './header.styles'
 import { useNavigate } from 'react-router-dom'
+import { signOut } from 'firebase/auth'
+import { auth } from '../../config/firebase.config'
 
 const Header = () => {
   const navigate = useNavigate()
@@ -23,6 +25,7 @@ const Header = () => {
         <HeaderItem>Explorar</HeaderItem>
         <HeaderItem onClick={handleLoginClick}>Login</HeaderItem>
         <HeaderItem onClick={handleSignupClick}>Criar Conta</HeaderItem>
+        <HeaderItem onClick={() => signOut(auth)}>Sair</HeaderItem>
         <HeaderItem>
           <BsCart3 size={25} /> (5)
         </HeaderItem>
