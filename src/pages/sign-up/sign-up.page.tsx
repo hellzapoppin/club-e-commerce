@@ -11,7 +11,6 @@ import { FiLogIn } from 'react-icons/fi'
 
 import { useForm } from 'react-hook-form'
 import InputErrorMessage from '../../components/input-error-message/input-error-message.component'
-import { getValue } from '@testing-library/user-event/dist/utils'
 
 interface SignUpForm {
   name: string
