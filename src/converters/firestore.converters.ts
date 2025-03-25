@@ -37,6 +37,7 @@ export const userConverter = {
     const data = snapshot.data(options)
 
     return {
+      id: data.id,
       fistName: data.fistName,
       lastName: data.lastName,
       email: data.email,
