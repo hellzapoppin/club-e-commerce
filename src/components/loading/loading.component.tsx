@@ -1,10 +1,10 @@
-import { SyncLoader } from 'react-spinners'
+import { HashLoader } from 'react-spinners'
 import { LoadingContainer } from './loading.styles'
 
 const Loading = () => {
   return (
     <LoadingContainer>
-      <SyncLoader size={30} />
+      <HashLoader size={60} />
     </LoadingContainer>
   )
 }
