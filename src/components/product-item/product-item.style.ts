@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 interface ProductItemProps {
-  imageUrl: string
+  $imageUrl: string
 }
 
 export const ProductContainer = styled.div`
@@ -20,7 +20,7 @@ export const ProductInfo = styled.div`
 `
 
 export const ProductImage = styled.div<ProductItemProps>`
-  background-image: ${({ imageUrl }) => `url(${imageUrl})`};
+  background-image: ${({ $imageUrl }) => `url(${$imageUrl})`};
   height: 380px;
   width: 300px;
   background-size: cover;
