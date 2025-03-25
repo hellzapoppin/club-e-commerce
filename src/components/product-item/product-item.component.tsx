@@ -12,7 +12,7 @@ interface ProductItemProps {
 const ProductItem = ({ product }: ProductItemProps) => {
   return (
     <ProductContainer>
-      <ProductImage imageUrl={product.imageUrl} />
+      <ProductImage $imageUrl={product.imageUrl} />
       <ProductInfo>
         <p>{product.name}</p>
         <p>{product.price}</p>
