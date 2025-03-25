@@ -1,8 +1,8 @@
 import { useContext, useEffect } from 'react'
 import { Container } from './categories-overview.styles'
-import { CategoryContext } from '../../../contexts/category.context'
-import CategoryOverview from '../../category-overview/category-overview.component'
-import Loading from '../../loading/loading.component'
+import { CategoryContext } from '../../contexts/category.context'
+import CategoryOverview from '../category-overview/category-overview.component'
+import Loading from '../loading/loading.component'
 
 const CategoriesOverview = () => {
   const { categories, isLoading, fetchCategories } = useContext(CategoryContext)
