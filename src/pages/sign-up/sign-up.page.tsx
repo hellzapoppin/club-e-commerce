@@ -19,8 +19,9 @@ import {
 import { auth, db } from '../../config/firebase.config'
 import { addDoc, collection } from 'firebase/firestore'
 import { UserContext } from '../../contexts/user.context'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Loading from '../../components/loading/loading.component'
 
 interface SignUpForm {
   firstName: string
@@ -39,6 +40,8 @@ const SignUpPage = () => {
     setError
   } = useForm<SignUpForm>()
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const { isAuthenticated } = useContext(UserContext)
 
   const navigate = useNavigate()
@@ -51,6 +54,7 @@ const SignUpPage = () => {
 
   const handleSignUpClick = async (data: SignUpForm) => {
     try {
+      setIsLoading(true)
       const userCredentials = await createUserWithEmailAndPassword(
         auth,
         data.email,
@@ -71,12 +75,17 @@ const SignUpPage = () => {
           message: 'E-mail já cadastrado'
         })
       }
+    } finally {
+      setIsLoading(false)
     }
   }
 
   return (
     <>
       <Header />
+
+      {isLoading && <Loading />}
+
       <SignUpContainer>
         <SignupContent onSubmit={handleSubmit(handleSignUpClick)}>
           <SignUpHeadLine>Crie sua conta</SignUpHeadLine>
