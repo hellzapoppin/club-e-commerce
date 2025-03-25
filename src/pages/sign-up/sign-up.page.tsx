@@ -18,6 +18,9 @@ import {
 } from 'firebase/auth'
 import { auth, db } from '../../config/firebase.config'
 import { addDoc, collection } from 'firebase/firestore'
+import { UserContext } from '../../contexts/user.context'
+import { useContext, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 interface SignUpForm {
   firstName: string
@@ -35,6 +38,17 @@ const SignUpPage = () => {
     getValues,
     setError
   } = useForm<SignUpForm>()
+
+  const { isAuthenticated } = useContext(UserContext)
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/')
+    }
+  }, [isAuthenticated])
+
   const handleSignUpClick = async (data: SignUpForm) => {
     try {
       const userCredentials = await createUserWithEmailAndPassword(
