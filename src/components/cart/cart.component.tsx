@@ -9,22 +9,24 @@ import {
 } from './cart.styles'
 import { BsCartCheck } from 'react-icons/bs'
 import { CartContext } from '../../contexts/cart.context'
+import CartItem from '../cart-item/cart-item.component'
 
 const Cart = () => {
-  const { isVisible, toggleCart } = useContext(CartContext)
+  const { isVisible, products, toggleCart } = useContext(CartContext)
   return (
-    <>
-      <CartContainer $isVisible={isVisible}>
-        <CartEscapeArea onClick={toggleCart} />
-        <CartContent>
-          <CartTitle>Seu Carrinho</CartTitle>
-          <CartTotal>Total: R$ 0,00</CartTotal>
-          <CustomButton startIcon={<BsCartCheck />}>
-            Ir para o Checkout
-          </CustomButton>
-        </CartContent>
-      </CartContainer>
-    </>
+    <CartContainer $isVisible={isVisible}>
+      <CartEscapeArea onClick={toggleCart} />
+      <CartContent>
+        <CartTitle>Seu Carrinho</CartTitle>
+        {products.map((product) => (
+          <CartItem key={product.id} product={product} />
+        ))}
+        <CartTotal>Total: R$ 0,00</CartTotal>
+        <CustomButton startIcon={<BsCartCheck />}>
+          Ir para o Checkout
+        </CustomButton>
+      </CartContent>
+    </CartContainer>
   )
 }
 
