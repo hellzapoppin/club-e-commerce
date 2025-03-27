@@ -5,6 +5,7 @@ import Product from '../types/product.types'
 interface CartContextInterface {
   isVisible: boolean
   productsTotalPrice: number
+  productsCount: number
   products: CartProduct[]
   toggleCart: () => void
   addProductToCart: (product: Product) => void
@@ -16,6 +17,7 @@ interface CartContextInterface {
 export const CartContext = createContext<CartContextInterface>({
   isVisible: false,
   productsTotalPrice: 0,
+  productsCount: 0,
   products: [],
   toggleCart: () => {},
   addProductToCart: () => {},
@@ -31,6 +33,12 @@ interface CartContextProviderProps {
 const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const [isVisible, setIsVisible] = useState<boolean>(false)
   const [products, setProducts] = useState<CartProduct[]>([])
+
+  const productsCount = useMemo(() => {
+    return products.reduce((acc, currentProduct) => {
+      return acc + currentProduct.quantity
+    }, 0)
+  }, [products])
 
   const productsTotalPrice = useMemo(() => {
     return products.reduce((acc, currentProduct) => {
@@ -99,6 +107,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       value={{
         isVisible,
         products,
+        productsCount,
         productsTotalPrice,
         toggleCart,
         addProductToCart,
