@@ -1,9 +1,10 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useMemo, useState } from 'react'
 import CartProduct from '../types/cart.types'
 import Product from '../types/product.types'
 
 interface CartContextInterface {
   isVisible: boolean
+  productsTotalPrice: number
   products: CartProduct[]
   toggleCart: () => void
   addProductToCart: (product: Product) => void
@@ -14,6 +15,7 @@ interface CartContextInterface {
 
 export const CartContext = createContext<CartContextInterface>({
   isVisible: false,
+  productsTotalPrice: 0,
   products: [],
   toggleCart: () => {},
   addProductToCart: () => {},
@@ -29,9 +31,17 @@ interface CartContextProviderProps {
 const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const [isVisible, setIsVisible] = useState<boolean>(false)
   const [products, setProducts] = useState<CartProduct[]>([])
+
+  const productsTotalPrice = useMemo(() => {
+    return products.reduce((acc, currentProduct) => {
+      return acc + currentProduct.price * currentProduct.quantity
+    }, 0)
+  }, [products])
+
   const toggleCart = () => {
     setIsVisible((prev) => !prev)
   }
+
   const addProductToCart = (product: Product) => {
     // verificar se o produto já está no carrinho
     const productIsAlreadyInCart = products.some(
@@ -89,6 +99,7 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
       value={{
         isVisible,
         products,
+        productsTotalPrice,
         toggleCart,
         addProductToCart,
         removeProductFromCart,
