@@ -12,6 +12,7 @@ interface CartContextInterface {
   removeProductFromCart: (productId: string) => void
   increaseProductQuantity: (productId: string) => void
   descreaseProductQuantity: (productId: string) => void
+  clearProducts: () => void
 }
 
 export const CartContext = createContext<CartContextInterface>({
@@ -23,7 +24,8 @@ export const CartContext = createContext<CartContextInterface>({
   addProductToCart: () => {},
   removeProductFromCart: () => {},
   increaseProductQuantity: () => {},
-  descreaseProductQuantity: () => {}
+  descreaseProductQuantity: () => {},
+  clearProducts: () => {}
 })
 
 interface CartContextProviderProps {
@@ -109,6 +111,10 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         .filter((product) => product.quantity > 0)
     )
   }
+
+  const clearProducts = () => {
+    setProducts([])
+  }
   return (
     <CartContext.Provider
       value={{
@@ -120,7 +126,8 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
         addProductToCart,
         removeProductFromCart,
         increaseProductQuantity,
-        descreaseProductQuantity
+        descreaseProductQuantity,
+        clearProducts
       }}
     >
       {children}
