@@ -13,6 +13,7 @@ import ExplorePage from './pages/explore/explore.page'
 import CategoryDetailsPage from './pages/category-details/category-details.page'
 import Cart from './components/cart/cart.component'
 import CheckoutPage from './pages/checkout/checkout.pages'
+import AuthenticationGuard from './guards/authetication.guard'
 
 const App = () => {
   const [isInitializing, setIsInitializing] = useState(true)
@@ -50,7 +51,14 @@ const App = () => {
         <Route path='/explore' element={<ExplorePage />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/sign-up' element={<SignUpPage />} />
-        <Route path='/checkout' element={<CheckoutPage />} />
+        <Route
+          path='/checkout'
+          element={
+            <AuthenticationGuard>
+              <CheckoutPage />
+            </AuthenticationGuard>
+          }
+        />
       </Routes>
       <Cart />
     </BrowserRouter>
