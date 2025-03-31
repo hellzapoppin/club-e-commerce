@@ -1,23 +1,29 @@
-import { useContext } from 'react'
-import Product from '../../types/product.types'
-import CustomButton from '../custom-button/custom-buttom.component'
+// Library
+import { BsCartPlus } from 'react-icons/bs'
+import { useDispatch } from 'react-redux'
+
+// Styles
 import {
   ProductContainer,
   ProductImage,
   ProductInfo
 } from './product-item.style'
 
-import { BsCartPlus } from 'react-icons/bs'
-import { CartContext } from '../../contexts/cart.context'
+// Components
+import CustomButton from '../custom-button/custom-buttom.component'
+
+// Utilities
+import Product from '../../types/product.types'
+import { addProductToCart } from '../../store/reducers/cart/cart.actions'
 
 interface ProductItemProps {
   product: Product
 }
 
 const ProductItem = ({ product }: ProductItemProps) => {
-  const { addProductToCart } = useContext(CartContext)
+  const dispatch = useDispatch()
   const handleAddToCartClick = () => {
-    addProductToCart(product)
+    dispatch(addProductToCart(product))
   }
   return (
     <ProductContainer>

@@ -11,19 +11,30 @@ import { BsCartCheck } from 'react-icons/bs'
 import { CartContext } from '../../contexts/cart.context'
 import CartItem from '../cart-item/cart-item.component'
 import { useNavigate } from 'react-router-dom'
+import { useAppSelector } from '../../hooks/redux.hook'
+import { useDispatch } from 'react-redux'
+import { toggleCart } from '../../store/reducers/cart/cart.actions'
 
 const Cart = () => {
   const navigate = useNavigate()
-  const { isVisible, products, productsTotalPrice, productsCount, toggleCart } =
-    useContext(CartContext)
+  const { productsTotalPrice, productsCount } = useContext(CartContext)
 
-  const handleCheckoutClick = () => {
+  const { isVisible, products } = useAppSelector(
+    (rootReducer) => rootReducer.cartReducer
+  )
+  const dispatch = useDispatch()
+
+  const handleEscapeAreaClick = () => {
     toggleCart()
     navigate('/checkout')
   }
+
+  const handleToggleClick = () => {
+    dispatch(toggleCart())
+  }
   return (
     <CartContainer $isVisible={isVisible}>
-      <CartEscapeArea onClick={toggleCart} />
+      <CartEscapeArea onClick={handleToggleClick} />
       <CartContent>
         <CartTitle>Seu Carrinho</CartTitle>
 
@@ -46,7 +57,7 @@ const Cart = () => {
         {productsCount > 0 && (
           <CustomButton
             startIcon={<BsCartCheck />}
-            onClick={handleCheckoutClick}
+            onClick={handleEscapeAreaClick}
           >
             Ir para o Checkout
           </CustomButton>

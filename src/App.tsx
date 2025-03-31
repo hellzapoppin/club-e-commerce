@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { onAuthStateChanged } from 'firebase/auth'
 import { useEffect, useState } from 'react'
 import { collection, getDocs, query, where } from 'firebase/firestore'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 // Pages
 import CategoryDetailsPage from './pages/category-details/category-details.page'
@@ -22,14 +22,16 @@ import Loading from './components/loading/loading.component'
 // Utilities
 import { auth, db } from './config/firebase.config'
 import { userConverter } from './converters/firestore.converters'
-import { loginUser, logout } from './store/reducers/user/user.actions'
+// import { loginUser, logoutUser } from './store/reducers/user/user.actions'
+import { useAppSelector } from './hooks/redux.hook'
 
 const App = () => {
   const [isInitializing, setIsInitializing] = useState(true)
 
   const dispatch = useDispatch()
-  const { isAuthenticated } = useSelector(
-    (rootReducer: any) => rootReducer.userReducer
+
+  const { isAuthenticated } = useAppSelector(
+    (rootReducer) => rootReducer.userReducer
   )
 
   useEffect(() => {
@@ -37,7 +39,8 @@ const App = () => {
       const isSigningOut = isAuthenticated && !user
 
       if (isSigningOut) {
-        dispatch(logout())
+        // dispatch(logoutUser())
+        dispatch({ type: 'user/logout' })
 
         return setIsInitializing(false)
       }
@@ -51,7 +54,8 @@ const App = () => {
         )
         const userFromFirebase = querySnapshot.docs[0]?.data()
 
-        dispatch(loginUser(userFromFirebase))
+        // dispatch(loginUser(userFromFirebase))
+        dispatch({ type: 'user/login', payload: userFromFirebase })
         return setIsInitializing(false)
       }
       setIsInitializing(false)
