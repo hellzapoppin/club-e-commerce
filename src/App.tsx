@@ -1,20 +1,28 @@
+// Library
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import HomePage from './pages/home/home.page'
-import LoginPage from './pages/login/login.page'
-import SignUpPage from './pages/sign-up/sign-up.page'
 import { onAuthStateChanged } from 'firebase/auth'
-import { auth, db } from './config/firebase.config'
 import { useEffect, useState } from 'react'
 import { collection, getDocs, query, where } from 'firebase/firestore'
-import { userConverter } from './converters/firestore.converters'
-import Loading from './components/loading/loading.component'
-import ExplorePage from './pages/explore/explore.page'
-import CategoryDetailsPage from './pages/category-details/category-details.page'
-import Cart from './components/cart/cart.component'
-import CheckoutPage from './pages/checkout/checkout.pages'
-import AuthenticationGuard from './guards/authetication.guard'
-import PaymentConfirmationPage from './pages/payment-confirmation/payment-confirmation.page'
 import { useDispatch, useSelector } from 'react-redux'
+
+// Pages
+import CategoryDetailsPage from './pages/category-details/category-details.page'
+import CheckoutPage from './pages/checkout/checkout.pages'
+import ExplorePage from './pages/explore/explore.page'
+import HomePage from './pages/home/home.page'
+import LoginPage from './pages/login/login.page'
+import PaymentConfirmationPage from './pages/payment-confirmation/payment-confirmation.page'
+import SignUpPage from './pages/sign-up/sign-up.page'
+
+// Components
+import AuthenticationGuard from './guards/authetication.guard'
+import Cart from './components/cart/cart.component'
+import Loading from './components/loading/loading.component'
+
+// Utilities
+import { auth, db } from './config/firebase.config'
+import { userConverter } from './converters/firestore.converters'
+import { loginUser, logout } from './store/reducers/user/user.actions'
 
 const App = () => {
   const [isInitializing, setIsInitializing] = useState(true)
@@ -29,7 +37,7 @@ const App = () => {
       const isSigningOut = isAuthenticated && !user
 
       if (isSigningOut) {
-        dispatch({ type: 'LOGOUT_USER' })
+        dispatch(logout())
 
         return setIsInitializing(false)
       }
@@ -43,7 +51,7 @@ const App = () => {
         )
         const userFromFirebase = querySnapshot.docs[0]?.data()
 
-        dispatch({ type: 'LOGIN_USER', payload: userFromFirebase })
+        dispatch(loginUser(userFromFirebase))
         return setIsInitializing(false)
       }
       setIsInitializing(false)

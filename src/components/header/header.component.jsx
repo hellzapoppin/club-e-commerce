@@ -1,18 +1,23 @@
-import './header.style.css'
+// Library
+import { useNavigate } from 'react-router-dom'
+import { signOut } from 'firebase/auth'
 import { BsCart3 } from 'react-icons/bs'
+import { useContext } from 'react'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+
+// Utilities
+import { CartContext } from '../../contexts/cart.context'
+import { auth } from '../../config/firebase.config'
+import { logout } from '../../store/reducers/user/user.actions'
+
+// Styles
 import {
   HeaderContainer,
   HeaderItem,
   HeaderItems,
   HeaderTitle
 } from './header.styles'
-import { useNavigate } from 'react-router-dom'
-import { useContext } from 'react'
-import { CartContext } from '../../contexts/cart.context'
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
-import { signOut } from 'firebase/auth'
-import { auth } from '../../config/firebase.config'
 
 const Header = () => {
   const navigate = useNavigate()
@@ -40,7 +45,7 @@ const Header = () => {
   }
 
   const handleSignOutClick = () => {
-    dispatch({ type: 'LOGOUT_USER' })
+    dispatch(logout)
     signOut(auth)
   }
 
