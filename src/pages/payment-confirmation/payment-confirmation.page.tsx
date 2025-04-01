@@ -1,18 +1,26 @@
+// Library
+import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import {
-  PaymentConfirmationContainer,
-  PaymentConfirmationContent
-} from './payment-confirmation.styles'
-import Header from '../../components/header/header.component'
-import CustomButton from '../../components/custom-button/custom-buttom.component'
 import {
   AiOutlineCloseCircle,
   AiOutlineCheckCircle,
   AiOutlineHome
 } from 'react-icons/ai'
+import { useDispatch } from 'react-redux'
+
+// Styles
+import {
+  PaymentConfirmationContainer,
+  PaymentConfirmationContent
+} from './payment-confirmation.styles'
+
+// Components
+import Header from '../../components/header/header.component'
+import CustomButton from '../../components/custom-button/custom-buttom.component'
+
+// Utilities
 import Color from '../../theme/theme.colors'
-import { useContext, useEffect } from 'react'
-import { CartContext } from '../../contexts/cart.context'
+import { clearCartProducts } from '../../store/reducers/cart/cart.actions'
 
 const PaymentConfirmationPage = () => {
   const [searchParams] = useSearchParams()
@@ -22,11 +30,11 @@ const PaymentConfirmationPage = () => {
   const handleHomePageClick = () => {
     navigate('/')
   }
-  const { clearProducts } = useContext(CartContext)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (status === 'true') {
-      clearProducts()
+      dispatch(clearCartProducts())
     }
   }, [status])
   return (
