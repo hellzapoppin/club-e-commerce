@@ -1,5 +1,13 @@
-import { useContext } from 'react'
+// Library
+import { useNavigate } from 'react-router-dom'
+import { BsCartCheck } from 'react-icons/bs'
+import { useDispatch } from 'react-redux'
+
+// Components
 import CustomButton from '../custom-button/custom-buttom.component'
+import CartItem from '../cart-item/cart-item.component'
+
+// Styles
 import {
   CartContainer,
   CartContent,
@@ -7,17 +15,20 @@ import {
   CartTitle,
   CartTotal
 } from './cart.styles'
-import { BsCartCheck } from 'react-icons/bs'
-import { CartContext } from '../../contexts/cart.context'
-import CartItem from '../cart-item/cart-item.component'
-import { useNavigate } from 'react-router-dom'
-import { useAppSelector } from '../../hooks/redux.hook'
-import { useDispatch } from 'react-redux'
+
+// Utilities
 import { toggleCart } from '../../store/reducers/cart/cart.actions'
+import { useAppSelector } from '../../hooks/redux.hook'
+import {
+  selectProductsCount,
+  selectProductsTotalPrice
+} from '../../store/reducers/cart/cart.selectors'
 
 const Cart = () => {
   const navigate = useNavigate()
-  const { productsTotalPrice, productsCount } = useContext(CartContext)
+
+  const productsTotalPrice = useAppSelector(selectProductsTotalPrice)
+  const productsCount = useAppSelector(selectProductsCount)
 
   const { isVisible, products } = useAppSelector(
     (rootReducer) => rootReducer.cartReducer

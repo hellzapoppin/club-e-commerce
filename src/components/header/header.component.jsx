@@ -2,14 +2,13 @@
 import { useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { BsCart3 } from 'react-icons/bs'
-import { useContext } from 'react'
 import { useDispatch } from 'react-redux'
 
 // Utilities
-import { CartContext } from '../../contexts/cart.context'
 import { auth } from '../../config/firebase.config'
 import { logoutUser } from '../../store/reducers/user/user.actions'
 import { useAppSelector } from '../../hooks/redux.hook'
+import { selectProductsCount } from '../../store/reducers/cart/cart.selectors'
 
 // Styles
 import {
@@ -29,7 +28,8 @@ const Header = () => {
     (rootReducer) => rootReducer.userReducer
   )
 
-  const { productsCount } = useContext(CartContext)
+  const productsCount = useAppSelector(selectProductsCount)
+
   const handleLoginClick = () => {
     navigate('/login')
   }
