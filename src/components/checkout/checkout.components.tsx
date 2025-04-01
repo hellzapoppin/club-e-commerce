@@ -1,20 +1,28 @@
-import { useContext, useState } from 'react'
-import { CartContext } from '../../contexts/cart.context'
+// Library
+import axios from 'axios'
+import { useState } from 'react'
+import { BsBagCheck } from 'react-icons/bs'
+
+//  Styles
 import {
   CheckoutContainer,
   CheckoutProducts,
   CheckoutTitle,
   CheckoutTotal
 } from './checkout.styles'
+
+// Components
 import CartItem from '../cart-item/cart-item.component'
 import CustomButton from '../custom-button/custom-buttom.component'
-
-import { BsBagCheck } from 'react-icons/bs'
-import axios from 'axios'
 import Loading from '../loading/loading.component'
 
+// Utilities
+import { useAppSelector } from '../../hooks/redux.hook'
+import { selectProductsTotalPrice } from '../../store/reducers/cart/cart.selectors'
+
 const Checkout = () => {
-  const { products, productsTotalPrice } = useContext(CartContext)
+  const { products } = useAppSelector((state) => state.cartReducer)
+  const productsTotalPrice = useAppSelector(selectProductsTotalPrice)
 
   const [isLoading, setIsLoading] = useState(false)
 
