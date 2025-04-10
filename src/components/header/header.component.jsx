@@ -17,7 +17,7 @@ import {
   HeaderItems,
   HeaderTitle
 } from './header.styles'
-import { toggleCart } from '../../store/reducers/cart/cart.actions'
+import { toggleCart } from '../../store/toolkit/cart/cart.slice'
 
 const Header = () => {
   const navigate = useNavigate()

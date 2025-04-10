@@ -17,7 +17,7 @@ import {
 } from './cart.styles'
 
 // Utilities
-import { toggleCart } from '../../store/reducers/cart/cart.actions'
+import { toggleCart } from '../../store/toolkit/cart/cart.slice'
 import { useAppSelector } from '../../hooks/redux.hook'
 import {
   selectProductsCount,
