@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux'
 
 // Utilities
 import { auth } from '../../config/firebase.config'
-import { logoutUser } from '../../store/reducers/user/user.actions'
+import { logoutUser } from '../../store/toolkit/user/user.slice'
 import { useAppSelector } from '../../hooks/redux.hook'
 import { selectProductsCount } from '../../store/reducers/cart/cart.selectors'
 

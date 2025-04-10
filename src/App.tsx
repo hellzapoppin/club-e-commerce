@@ -22,7 +22,7 @@ import Loading from './components/loading/loading.component'
 // Utilities
 import { auth, db } from './config/firebase.config'
 import { userConverter } from './converters/firestore.converters'
-// import { loginUser, logoutUser } from './store/reducers/user/user.actions'
+import { loginUser, logoutUser } from './store/toolkit/user/user.slice'
 import { useAppSelector } from './hooks/redux.hook'
 
 const App = () => {
@@ -39,8 +39,8 @@ const App = () => {
       const isSigningOut = isAuthenticated && !user
 
       if (isSigningOut) {
-        // dispatch(logoutUser())
-        dispatch({ type: 'user/logout' })
+        dispatch(logoutUser())
+        // dispatch({ type: 'user/logout' })
 
         return setIsInitializing(false)
       }
@@ -54,8 +54,8 @@ const App = () => {
         )
         const userFromFirebase = querySnapshot.docs[0]?.data()
 
-        // dispatch(loginUser(userFromFirebase))
-        dispatch({ type: 'user/login', payload: userFromFirebase })
+        dispatch(loginUser(userFromFirebase))
+        // dispatch({ type: 'user/login', payload: userFromFirebase })
         return setIsInitializing(false)
       }
       setIsInitializing(false)
