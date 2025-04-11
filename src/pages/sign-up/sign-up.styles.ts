@@ -23,6 +23,10 @@ export const SignupContent = styled.form`
   flex-direction: column;
   align-item: center;
   width: 450px;
+
+  @media (max-width: 768px) {
+    width: 90%;
+  }
 `
 
 export const SignUpInputContainer = styled.div`
