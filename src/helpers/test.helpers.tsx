@@ -9,11 +9,11 @@ import { ReactNode } from 'react'
 const renderWithRedux = (
   component: ReactNode,
   {
-    preloadedState,
+    preloadedState = {},
     store = configureStore({ reducer: rootReducer, preloadedState }),
     ...renderOptions
   }: {
-    preloadedState: RootState
+    preloadedState?: Partial<RootState>
     store?: any
   }
 ) => {
