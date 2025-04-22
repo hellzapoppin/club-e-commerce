@@ -2,6 +2,7 @@ import { getByText } from '@testing-library/dom'
 import { renderWithRedux } from '../../helpers/test.helpers'
 import CartProduct from '../../types/cart.types'
 import Cart from './cart.component'
+import userEvent from '@testing-library/user-event'
 
 describe('Cart', () => {
   it('should show correct cart products', () => {
@@ -33,5 +34,26 @@ describe('Cart', () => {
 
     getByText('Seu carrinho está vazio')
     expect(queryByText(/ir para o checkout/i)).toBeNull()
+  })
+
+  it('should increase product quantity on increase click', () => {
+    const products: CartProduct[] = [
+      {
+        id: '1',
+        imageUrl: 'image_url',
+        name: 'Boné',
+        price: 100,
+        quantity: 2
+      }
+    ]
+    const { getByLabelText, getByText } = renderWithRedux(<Cart />, {
+      preloadedState: { cartReducer: { products } } as any
+    })
+
+    const increaseButton = getByLabelText(/increase quantity of boné/i)
+
+    userEvent.click(increaseButton)
+
+    getByText('3')
   })
 })
