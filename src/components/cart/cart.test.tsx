@@ -77,4 +77,29 @@ describe('Cart', () => {
 
     getByText('1')
   })
+
+  it('should remover product on remove click', () => {
+    const products: CartProduct[] = [
+      {
+        id: '1',
+        imageUrl: 'image_url',
+        name: 'Boné',
+        price: 100,
+        quantity: 2
+      }
+    ]
+    const { getByLabelText, getByText, queryByText } = renderWithRedux(
+      <Cart />,
+      {
+        preloadedState: { cartReducer: { products } } as any
+      }
+    )
+
+    const removeButton = getByLabelText(/remove boné/i)
+
+    userEvent.click(removeButton)
+
+    expect(queryByText(/boné/i)).toBeNull()
+    getByText(/seu carrinho está vazio/i)
+  })
 })
