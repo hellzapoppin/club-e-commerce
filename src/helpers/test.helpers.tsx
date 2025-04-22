@@ -4,10 +4,10 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { render } from '@testing-library/react'
 import { RootState } from '../store/store'
-import { ReactElement } from 'react'
+import { ReactNode } from 'react'
 
 const renderWithRedux = (
-  component: ReactElement,
+  component: ReactNode,
   {
     preloadedState,
     store = configureStore({ reducer: rootReducer, preloadedState }),
@@ -17,7 +17,7 @@ const renderWithRedux = (
     store?: any
   }
 ) => {
-  const Wrapper = ({ children }: { children: ReactElement }) => {
+  const Wrapper = ({ children }: { children: ReactNode }) => {
     return (
       <BrowserRouter>
         <Provider store={store}>{children}</Provider>
