@@ -1,7 +1,7 @@
 import { InputErrorMessageContainer } from './input-error-message.style'
 
 interface InputErrorMessageProps {
-  message: string
+  message: string | undefined
 }
 
 const InputErrorMessage = ({ message }: InputErrorMessageProps) => {
