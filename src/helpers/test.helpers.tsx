@@ -14,7 +14,7 @@ const renderWithRedux = (
     ...renderOptions
   }: {
     preloadedState?: Partial<RootState>
-    store?: any
+    store?: ReturnType<typeof configureStore>
   }
 ) => {
   const Wrapper = ({ children }: { children: ReactNode }) => {

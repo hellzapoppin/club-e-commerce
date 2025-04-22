@@ -37,7 +37,7 @@ const ProductItem = ({ product }: ProductItemProps) => {
       </ProductImage>
       <ProductInfo>
         <p>{product.name}</p>
-        <p>{product.price}</p>
+        <p>R$ {product.price}</p>
       </ProductInfo>
     </ProductContainer>
   )
