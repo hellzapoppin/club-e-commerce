@@ -13,4 +13,19 @@ describe('Login', () => {
     await findByText(/o e-mail é obrigatório/i)
     getByText(/A senha é obrigatória/i)
   })
+
+  it('should show error if email is invalid', async () => {
+    const { getByPlaceholderText, getByText, findByText } = renderWithRedux(
+      <LoginPage />,
+      {}
+    )
+
+    const emailInput = getByPlaceholderText(/digite seu e-mail/i)
+    const submitButton = getByText('Entrar')
+
+    userEvent.type(emailInput, 'invalid_email')
+    userEvent.click(submitButton)
+
+    await findByText(/Endereço de e-mail inválido/i)
+  })
 })
