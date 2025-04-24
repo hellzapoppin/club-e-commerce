@@ -14,8 +14,8 @@ describe('Checkout', () => {
       }
     ]
     const { getByText } = renderWithRedux(<Checkout />, {
-      preloadedState: { cartReducer: { products: cartItems } }
-    } as any)
+      preloadedState: { cartReducer: { products: cartItems, isVisible: false } }
+    })
 
     getByText('Total: R$ 100,00')
     getByText(/finalizar compra/i)
@@ -25,11 +25,10 @@ describe('Checkout', () => {
   it('should show empty message if cart is empty and not show checkout button', () => {
     const cartItems: CartProduct[] = []
     const { getByText, queryByText } = renderWithRedux(<Checkout />, {
-      preloadedState: { cartReducer: { products: cartItems } }
-    } as any)
+      preloadedState: { cartReducer: { products: cartItems, isVisible: false } }
+    })
 
     getByText(/seu carrinho está vazio/i)
-
     expect(queryByText(/finalizar comprar/i)).toBeNull()
   })
 })
