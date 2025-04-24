@@ -1,19 +1,24 @@
-import Category from '../../types/category.types'
 import { useEffect, useState } from 'react'
 import { collection, getDocs, query, where } from 'firebase/firestore'
+import { BiChevronLeft } from 'react-icons/bi'
+import { useNavigate } from 'react-router-dom'
+
+// Utilities
 import { db } from '../../config/firebase.config'
 import { categoryConverter } from '../../converters/firestore.converters'
+import Category from '../../types/category.types'
+
+// Components
 import Loading from '../loading/loading.component'
+import ProductItem from '../product-item/product-item.component'
+
+// Styles
 import {
   CategoryTitle,
   Container,
   IconContainer,
   ProductsContainer
 } from './category-details.styles'
-
-import { BiChevronLeft } from 'react-icons/bi'
-import ProductItem from '../product-item/product-item.component'
-import { useNavigate } from 'react-router-dom'
 
 interface CategoryDetailsProps {
   categoryId: string
@@ -22,16 +27,23 @@ interface CategoryDetailsProps {
 const CategoryDetails = ({ categoryId }: CategoryDetailsProps) => {
   const [category, setCategory] = useState<Category | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+
   const navigate = useNavigate()
+
+  const handleGoBackClick = () => {
+    navigate(-1)
+  }
+
   useEffect(() => {
     const fetchCategory = async () => {
       try {
         setIsLoading(true)
+
         const querySnapshot = await getDocs(
           query(
-            collection(db, 'categories'),
+            collection(db, 'categories').withConverter(categoryConverter),
             where('id', '==', categoryId)
-          ).withConverter(categoryConverter)
+          )
         )
         const category = querySnapshot.docs[0]?.data()
         setCategory(category)
@@ -43,10 +55,6 @@ const CategoryDetails = ({ categoryId }: CategoryDetailsProps) => {
     }
     fetchCategory()
   }, [])
-
-  const handleGoBackClick = () => {
-    navigate(-1)
-  }
 
   if (isLoading) return <Loading />
 
