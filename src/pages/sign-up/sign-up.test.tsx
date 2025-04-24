@@ -32,4 +32,24 @@ describe('Sign Up', () => {
 
     await findByText(/^Endereço de e-mail inválido$/i)
   })
+
+  it('should show errors when password and password confirmation are different', async () => {
+    const { getByText, findByText, getByPlaceholderText } = renderWithRedux(
+      <SignUpPage />,
+      {}
+    )
+
+    const passwordInput = getByPlaceholderText(/digite seu senha/i)
+    userEvent.type(passwordInput, '123456')
+    const passwordConfirmationInput = getByPlaceholderText(
+      /digite novamente sua senha/i
+    )
+    userEvent.type(passwordConfirmationInput, '1234567')
+
+    const submitButton = getByText(/criar conta/i, { selector: 'button' })
+
+    userEvent.click(submitButton)
+
+    await findByText(/^Senhas não conferem$/i)
+  })
 })
