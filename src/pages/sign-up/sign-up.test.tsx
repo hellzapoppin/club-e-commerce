@@ -1,6 +1,10 @@
 import userEvent from '@testing-library/user-event'
+import * as firebaseAuth from 'firebase/auth'
+
 import { renderWithRedux } from '../../helpers/test.helpers'
 import SignUpPage from './sign-up.page'
+
+jest.mock('firebase/auth')
 
 describe('Sign Up', () => {
   it('should show errors when trying to submit without filling all required fields', async () => {
@@ -72,5 +76,37 @@ describe('Sign Up', () => {
 
     await findByText(/^A senha deve conter, no mínimo, 6 caracteres$/i)
     getByText(/^A confirmação de senha deve conter, no mínimo, 6 caracteres$/i)
+  })
+
+  it('should show errors if email already exist', async () => {
+    const { getByText, findByText, getByPlaceholderText } = renderWithRedux(
+      <SignUpPage />,
+      {}
+    )
+
+    const mockFirebaseAuth = firebaseAuth as any
+    mockFirebaseAuth.createUserWithEmailAndPassword.mockImplementation(() =>
+      Promise.reject({ code: firebaseAuth.AuthErrorCodes.EMAIL_EXISTS })
+    )
+
+    const firstnameInput = getByPlaceholderText(/^digite seu nome$/i)
+    const lastnameInput = getByPlaceholderText(/digite seu sobrenome/i)
+    const emailInput = getByPlaceholderText(/digite seu e-mail/i)
+    const passwordInput = getByPlaceholderText(/^digite seu senha$/i)
+    const passwordConfirmationInput = getByPlaceholderText(
+      /digite novamente sua senha/i
+    )
+
+    userEvent.type(firstnameInput, 'lorem')
+    userEvent.type(lastnameInput, 'ipsum')
+    userEvent.type(emailInput, 'lorem@ipsum.com')
+    userEvent.type(passwordInput, '123456')
+    userEvent.type(passwordConfirmationInput, '123456')
+
+    const submitButton = getByText(/criar conta/i, { selector: 'button' })
+
+    userEvent.click(submitButton)
+
+    await findByText(/^E-mail já cadastrado$/i)
   })
 })
